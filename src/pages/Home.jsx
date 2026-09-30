@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import { Header, QuickVerify } from "../components";
 import { useContent, SocialLinks } from "../content";
 import FeaturedCourses from "../FeaturedCourses";
+
 export default function Home() {
-  const { settings, courses } = useContent();
+  const content = useContent() || {};
+  const settings = content.settings || {};
+  const courses = Array.isArray(content.courses) ? content.courses : [];
+
   return (
     <>
       <aside className={"top-bar"}>
@@ -11,26 +15,26 @@ export default function Home() {
           <div className={"top-left"}>
             <span>
               <i className={"fa-solid fa-location-dot"}></i>
-              {settings?.address || ""}
+              {settings.address || ""}
             </span>
             <span className={"sep"}>{"•"}</span>
-            <a href={`mailto:${settings.email}`}>
+            <a href={`mailto:${settings.email || ""}`}>
               <i className={"fa-solid fa-envelope"}></i>
-              {settings.email}
+              {settings.email || ""}
             </a>
           </div>
           <div className={"top-right"}>
             <a
-              href={`https://wa.me/${settings.whatsapp}`}
+              href={`https://wa.me/${settings.whatsapp || ""}`}
               target={"_blank"}
-              rel={"noopener"}
+              rel={"noopener noreferrer"}
             >
               <i className={"fa-brands fa-whatsapp"}></i>
-              {settings.phone}
+              {settings.phone || ""}
             </a>
             <span className={"badge-indigo-soft"}>
               <span className={"pulse-dot"}></span>
-              {settings.announcement}
+              {settings.announcement || ""}
             </span>
           </div>
         </div>
@@ -54,7 +58,7 @@ export default function Home() {
               <div className={"hero-image-shade"}></div>
 
               <div className={"arvard-floating-overlay-card"}>
-                <p className={"overlay-text"}>{settings.mission}</p>
+                <p className={"overlay-text"}>{settings.mission || ""}</p>
                 <Link className={"btn-indigo-pill"} to={"/courses"}>
                   {"Explore Courses "}
                   <i className={"fa-solid fa-arrow-up-right-from-square"}></i>
@@ -67,16 +71,16 @@ export default function Home() {
                 <span className={"eyebrow-tag"}>
                   {"STUDIO & DIGITAL MEDIA EDUCATION"}
                 </span>
-                <h1 className={"hero-editorial-title"}>{settings.heroTitle}</h1>
-                <p className={"hero-editorial-sub"}>{settings.heroIntro}</p>
+                <h1 className={"hero-editorial-title"}>{settings.heroTitle || ""}</h1>
+                <p className={"hero-editorial-sub"}>{settings.heroIntro || ""}</p>
                 <div className={"hero-action-row"}>
                   <Link className={"btn-dark-pill"} to={"/admissions"}>
                     {"Start Your Application"}
                   </Link>
                   <a
-                    href={`https://wa.me/${settings.whatsapp}`}
+                    href={`https://wa.me/${settings.whatsapp || ""}`}
                     target={"_blank"}
-                    rel={"noopener"}
+                    rel={"noopener noreferrer"}
                     className={"btn-whatsapp-pill"}
                   >
                     <i className={"fa-brands fa-whatsapp"}></i>
@@ -269,6 +273,7 @@ export default function Home() {
           <FeaturedCourses />
         </div>
       </section>
+
       <section className={"verify-strip"}>
         <div className={"container verify-flex"}>
           <div className={"verify-info"}>
@@ -381,13 +386,13 @@ export default function Home() {
               </li>
               <li>
                 <i className={"fa-brands fa-whatsapp"}></i>
-                <a href={`https://wa.me/${settings.whatsapp}`}>
-                  {settings.phone}
+                <a href={`https://wa.me/${settings.whatsapp || ""}`}>
+                  {settings.phone || ""}
                 </a>
               </li>
               <li>
                 <i className={"fa-solid fa-envelope"}></i>
-                <a href={`mailto:${settings.email}`}>{settings.email}</a>
+                <a href={`mailto:${settings.email || ""}`}>{settings.email || ""}</a>
               </li>
             </ul>
           </div>
@@ -401,10 +406,10 @@ export default function Home() {
       </footer>
 
       <a
-        href={`https://wa.me/${settings.whatsapp}`}
+        href={`https://wa.me/${settings.whatsapp || ""}`}
         className={"whatsapp-fab"}
         target={"_blank"}
-        rel={"noopener"}
+        rel={"noopener noreferrer"}
         aria-label={"Chat on WhatsApp"}
       >
         <i className={"fa-brands fa-whatsapp"}></i>

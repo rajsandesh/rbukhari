@@ -4,10 +4,13 @@ import { Header } from "../components";
 import { useContent, api, SocialLinks, SiteFooter } from "../content";
 
 export default function Contact() {
-  const { settings } = useContent();
+  const content = useContent() || {};
+  const settings = content.settings || {};
+
   const [status, setStatus] = useState(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+
   async function submit(e) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -31,6 +34,9 @@ export default function Contact() {
       setBusy(false);
     }
   }
+
+  const mapQuery = settings.mapQuery || "Chichawatni";
+
   return (
     <>
       <div className="canvas-wrapper">
@@ -42,7 +48,6 @@ export default function Contact() {
               Big questions.
               <br />A real conversation.
             </h1>
-
           </div>
           <div className="contact-layout">
             <section className="contact-details">
@@ -56,7 +61,7 @@ export default function Contact() {
               </div>
               <a
                 className="contact-method"
-                href={`https://wa.me/${settings.whatsapp}`}
+                href={`https://wa.me/${settings.whatsapp || ""}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -65,16 +70,19 @@ export default function Contact() {
                 </span>
                 <span>
                   <small>LET’S TALK</small>
-                  <strong>{settings.phone}</strong>
+                  <strong>{settings.phone || ""}</strong>
                 </span>
               </a>
-              <a className="contact-method" href={`mailto:${settings.email}`}>
+              <a
+                className="contact-method"
+                href={`mailto:${settings.email || ""}`}
+              >
                 <span className="contact-symbol">
                   <i className="fa-regular fa-envelope" />
                 </span>
                 <span>
                   <small>WRITE TO US</small>
-                  <strong>{settings.email}</strong>
+                  <strong>{settings.email || ""}</strong>
                 </span>
               </a>
               <div className="contact-method">
@@ -83,7 +91,7 @@ export default function Contact() {
                 </span>
                 <span>
                   <small>OUR CAMPUS</small>
-                 <strong>{settings?.address || ""}</strong>
+                  <strong>{settings.address || ""}</strong>
                 </span>
               </div>
               <SocialLinks />
@@ -169,7 +177,6 @@ export default function Contact() {
                     {busy ? "Sending…" : "Send inquiry"}{" "}
                     <i className="fa-solid fa-arrow-right" />
                   </button>
-
                 </form>
               )}
             </section>
@@ -182,7 +189,7 @@ export default function Contact() {
               </div>
               <a
                 className="btn-dark-pill"
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.mapQuery)}`}
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -192,13 +199,13 @@ export default function Contact() {
             <div className="map-frame">
               <iframe
                 title="Institute area map"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(settings.mapQuery)}&output=embed`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
               />
             </div>
-            {!settings.mapConfirmed && (
+            {!settings?.mapConfirmed && (
               <p className="form-footnote">
                 This map shows the Chichawatni area. Contact admissions for the
                 exact campus pin.
@@ -211,6 +218,7 @@ export default function Contact() {
     </>
   );
 }
+
 function Field({ label, name, ...props }) {
   return (
     <div className="input-block">
