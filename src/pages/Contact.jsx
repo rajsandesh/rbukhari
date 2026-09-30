@@ -83,7 +83,7 @@ export default function Contact() {
                 </span>
                 <span>
                   <small>OUR CAMPUS</small>
-                  <strong>{settings.address}</strong>
+                 <strong>{settings?.address || ""}</strong>
                 </span>
               </div>
               <SocialLinks />

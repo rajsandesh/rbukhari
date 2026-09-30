@@ -11,7 +11,7 @@ export default function Home() {
           <div className={"top-left"}>
             <span>
               <i className={"fa-solid fa-location-dot"}></i>
-              {settings.address}
+              {settings?.address || ""}
             </span>
             <span className={"sep"}>{"•"}</span>
             <a href={`mailto:${settings.email}`}>
